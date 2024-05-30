@@ -32,5 +32,5 @@ def pascal_triangle(n):
     if n <= 0:
         return [[1],]
 
-    row = [math.factorial(n)/(math.factorial(n-i)*math.factorial(i)) for i in range(n + 1)]
+    row = [int(math.factorial(n)/(math.factorial(n-i)*math.factorial(i))) for i in range(n + 1)]
     return pascal_triangle(n-1) + [row]
