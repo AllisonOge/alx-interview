@@ -7,7 +7,7 @@ of list of integers representing the Pascal triangle of n
 
 def factorial(n):
     """compute the factorial"""
-    if n == 0:
+    if n <= 0:
         return 1
     return n * factorial(n-1)
 
@@ -23,13 +23,13 @@ def pascal_triangle(n):
     -------
     p_triangle: List of List of int
     """
-    # if n = 1
-    # [[1], [1, 1]]
     # if n = 2
-    # [[1], [1, 1], [1, 2, 1]]
+    # [[1], [1, 1]]
     # if n = 3
-    # [[1], [1, 1], [1, 2, 1], [1, 3, 3, 1]]
+    # [[1], [1, 1], [1, 2, 1]]
     # if n = 4
+    # [[1], [1, 1], [1, 2, 1], [1, 3, 3, 1]]
+    # if n = 5
     # [[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1]]
     # if n = k
     # [[1], [1, 1], [1, 2, 1], [1, 3, 3, 1],
