@@ -30,7 +30,9 @@ def pascal_triangle(n):
     # where kCr = k!/(k-r)!r!
 
     if n <= 0:
-        return [[1],]
+        return []
+    if n == 1:
+        return [[1], [1, 1]]
 
-    row = [int(math.factorial(n)/(math.factorial(n-i)*math.factorial(i))) for i in range(n + 1)]
-    return pascal_triangle(n-1) + [row]
+    row = [int(math.factorial(n-1)/(math.factorial(n-1-i)*math.factorial(i))) for i in range(n)]
+    return pascal_triangle(n-2) + [row]
