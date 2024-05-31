@@ -41,6 +41,6 @@ def pascal_triangle(n):
     if n == 1:
         return [[1]]
 
-    row = [int(factorial(n-1)/(factorial(n-1-i)*factorial(i))) \
+    row = [int(factorial(n-1)/(factorial(n-1-i)*factorial(i)))
            for i in range(n)]
     return pascal_triangle(n-1) + [row]
