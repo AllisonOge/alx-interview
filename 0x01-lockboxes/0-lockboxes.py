@@ -28,22 +28,21 @@ def canUnlockAll(boxes):
     # assume all keys are positive integers that match
     # the number as the box it opens.
 
-    hash_map = { k: v for k, v in enumerate(boxes)}
+    hash_map = {k: v for k, v in enumerate(boxes)}
     if len(hash_map) == 0:
         return False
-    stack = hash_map.get(0) # open first box
+    stack = hash_map.get(0)  # open first box
     del hash_map[0]
     while len(hash_map) > 0:
         if len(stack) == 0:
-            return False # couldn't open all boxes
+            return False  # couldn't open all boxes
         key = stack.pop()
         keys = hash_map.get(key)
-        if keys is None: # box has been visited or does not exist
+        if keys is None:  # box has been visited or does not exist
             continue
-        if not keys: # box is empty
+        if not keys:  # box is empty
             if len(stack) == 0:
                 return len(hash_map) == 1
-        stack.extend(keys) # stack the keys
-        del hash_map[key] # trash the box
-    return True # opened all boxes
-
+        stack.extend(keys)  # stack the keys
+        del hash_map[key]  # trash the box
+    return True  # opened all boxes
