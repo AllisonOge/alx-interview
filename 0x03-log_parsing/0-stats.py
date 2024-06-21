@@ -4,15 +4,9 @@
 import sys
 import signal
 
-store = {"size": 0, "count": 0, "status_codes": {}}
-valid_status_codes = {'200', '301', '400', '401', '403', '404', '405', '500'}
-
-
-# Define a function to handle keyboard interruption
-def signal_handler(sig, frame):
-    """keyboard interupt signal handler"""
-    print_stats()
-    sys.exit(0)
+valid_status_codes = ['200', '301', '400', '401', '403', '404', '405', '500']
+store = {"size": 0, "count": 0,
+         "status_codes": {int(k): 0 for k in valid_status_codes}}
 
 
 def print_stats():
@@ -24,29 +18,30 @@ def print_stats():
 
 def main():
     """main"""
-    signal.signal(signal.SIGINT, signal_handler)
+    for cmdline in sys.stdin:
+        ip, cmdline_ = cmdline.split("-", 1)
+        cmdline = cmdline_.strip()
+        date, cmdline_ = cmdline.split("]", 1)
+        date = date.replace("[", "")
+        cmdline = cmdline_.strip()
+        url, cmdline_ = cmdline.split("\"", 2)[1:]
+        cmdline = cmdline_.strip()
+        status_code, file_size = list(map(int, cmdline.split()))
 
-    try:
-        for cmdline in sys.stdin:
-            ip, cmdline_ = cmdline.split("-", 1)
-            cmdline = cmdline_.strip()
-            date, cmdline_ = cmdline.split("]", 1)
-            date = date.replace("[", "")
-            cmdline = cmdline_.strip()
-            url, cmdline_ = cmdline.split("\"", 2)[1:]
-            cmdline = cmdline_.strip()
-            status_code, file_size = list(map(int, cmdline.split()))
+        store["size"] += int(file_size)
+        store["status_codes"][status_code] += 1
+        store["count"] += 1
 
-            store["size"] += int(file_size)
-            if status_code not in store["status_codes"]:
-                store["status_codes"][status_code] = 0
-            store["status_codes"][status_code] += 1
-            store["count"] += 1
+        if store["count"] % 10 == 0:
+            print_stats()
 
-            if store["count"] % 10 == 0:
-                print_stats()
-    except KeyboardInterrupt:
+    # Define a function to handle keyboard interruption
+    def signal_handler(sig=None, frame=None):
+        """keyboard interupt signal handler"""
         print_stats()
+        sys.exit(0)
+
+    signal.signal(signal.SIGINT, signal_handler)
 
 
 if __name__ == "__main__":
