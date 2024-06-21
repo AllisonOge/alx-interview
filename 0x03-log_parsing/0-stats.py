@@ -2,7 +2,7 @@
 """l0-stats.py"""
 
 
-def main(cmdline, store={"size": 0, "count": 0 }):
+def main(cmdline, store={"size": 0, "count": 0}):
     """process args in command line and update store"""
     # process args in command line
     ip, cmdline_ = cmdline.split("-", 1)
@@ -19,12 +19,12 @@ def main(cmdline, store={"size": 0, "count": 0 }):
     new_count = store.get("count") + 1
     new_status_count = store.get(str(status_code), 0) + 1
     store.update({"size": new_file_size,
-                  "count": new_count,
-                  str(status_code): new_status_count })
+                 "count": new_count,
+                  str(status_code): new_status_count})
 
 
 if __name__ == "__main__":
-    store = {"size": 0, "count": 0 }
+    store = {"size": 0, "count": 0}
     cmdline = input()
     try:
         while cmdline:
@@ -38,10 +38,8 @@ if __name__ == "__main__":
                     if k not in ["size", "count"]:
                         print(f"{k}: {v}")
                 # reset store
-                store = { "size": size, "count": count }
-
+                store = {"size": size, "count": count}
 
             cmdline = input()
     except KeyboardInterrupt as e:
         pass
-        
