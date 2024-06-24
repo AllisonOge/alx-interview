@@ -3,10 +3,14 @@
 
 import sys
 import signal
+import re
 
 valid_status_codes = [200, 301, 400, 401, 403, 404, 405, 500]
 store = {"size": 0, "count": 0,
          "status_codes": {k: 0 for k in valid_status_codes}}
+line_regex = re.compile(
+    r'^(\S+)\s*-\s*\[(.*?)\]\s*"(GET /projects/260 HTTP/1.1)"'
+    + r'\s*([\d,\w]+)\s*([\d,\w]+)$')
 
 
 def print_stats():
@@ -19,18 +23,22 @@ def print_stats():
 
 def process_line(cmdline):
     """Process each line and update store"""
-    parts = cmdline.split()
-    if len(parts) != 9:
+    match = line_regex.match(cmdline)
+    if not match:
         return
-    ip, dash, year, time, method, url, protocol, status_code, file_size = parts
-    if not status_code.isdigit() or not file_size.isdigit():
+    ip, date, request, status_code, file_size = match.groups()
+    if not file_size.isdigit():
         return
-    status_code, file_size = list(map(int, [status_code, file_size]))
+    file_size = int(file_size)
+    store["size"] += file_size
+
+    if not status_code.isdigit():
+        return
+    status_code = int(status_code)
     if status_code not in valid_status_codes:
         return
-
-    store["size"] += file_size
     store["status_codes"][status_code] += 1
+
     store["count"] += 1
 
 
