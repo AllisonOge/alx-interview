@@ -15,7 +15,7 @@ def validUTF8(data):
         """validate character"""
         if c <= 0x7F:  # 1 byte validity
             return True
-        if 0xC080 == c:  # accept '\0'
+        if 0x00 == c:  # accept '\0'
             return True
         if 0xC280 <= c and c <= 0xDFBF:  # 2 byte validity
             return (c & 0xE0C0) == 0xC080
