@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/node
 
 /**
  * Script to query `https://swapi-api.alx-tools.com/api/films/` API endpoint
