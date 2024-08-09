@@ -13,6 +13,8 @@ def isWinner(x, nums):
     :params nums: list of n
     :type nums: list
     """
+    if not x or not nums:
+        return
     players = ['Ben', 'Maria']
     num_wins = [0, 0]
 
@@ -34,5 +36,7 @@ def isWinner(x, nums):
         num_wins[len([i for i in li if i != 0]) % 2] += 1
         # print(num_wins)
 
+    if num_wins[0] == num_wins[1]:
+        return
     idx = num_wins.index(max(num_wins))
     return players[idx]
