@@ -13,28 +13,26 @@ def isWinner(x, nums):
     :params nums: list of n
     :type nums: list
     """
-    players = ['Maria', 'Ben']
+    players = ['Ben', 'Maria']
     num_wins = [0, 0]
 
     for n in nums:
         # condition for ending game
         p = 2  # 2 is a prime number
-        li = list(xrange(2, n))
-        count = 1
+        li = list(range(2, n+1))
         while p*p <= n:
             # remove all multiples
-            for i in xrange(p*2, n, p):
-                li[i - 2] = 0
-            # print("->", li)
+            for i in range(p*2, n+1, p):
+                li[i-2] = 0
             p += 1
 
             # ensure p is only a prime number (is in the list)
             while p not in li:
                 p += 1
 
-            # one turn complete
-            count += 1
-        num_wins[count % 2] += 1
+        # print("End of game->", li, n)
+        num_wins[len([i for i in li if i != 0]) % 2] += 1
+        # print(num_wins)
 
     idx = num_wins.index(max(num_wins))
     return players[idx]
